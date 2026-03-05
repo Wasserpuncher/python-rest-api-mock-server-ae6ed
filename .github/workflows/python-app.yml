@@ -1,0 +1,38 @@
+# GitHub Actions Workflow for Python application
+
+name: Python application
+
+on: # Definiert, wann dieser Workflow ausgeführt werden soll
+  push: # Bei jedem Push auf den Haupt-Branch oder andere Branches
+    branches: [ "main", "develop" ]
+  pull_request: # Bei jedem Pull Request, der auf den Haupt-Branch abzielt
+    branches: [ "main" ]
+
+permissions:
+  contents: read # Erlaubt dem Workflow, den Repository-Inhalt zu lesen
+
+jobs: # Definiert die Jobs, die im Workflow ausgeführt werden
+  build: # Name des Jobs
+
+    runs-on: ubuntu-latest # Der Runner, auf dem der Job ausgeführt wird (hier: neuestes Ubuntu)
+
+    steps: # Die Schritte, die im Job ausgeführt werden
+    - uses: actions/checkout@v3 # Checkt den Repository-Code aus
+    - name: Set up Python 3.x # Konfiguriert Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.x" # Verwendet die neueste verfügbare Python 3-Version
+    - name: Install dependencies # Installiert notwendige Abhängigkeiten
+      run: |
+        python -m pip install --upgrade pip # Aktualisiert pip
+        pip install flake8 pytest # Installiert Linter und Test-Framework
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi # Installiert weitere Abhängigkeiten aus requirements.txt
+    - name: Lint with flake8 # Führt Linting mit flake8 aus, um den Code-Stil zu überprüfen
+      run: |
+        # Stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # Exit-code 0 means no errors / warnings. Will error if > 0
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=120 --statistics
+    - name: Test with pytest # Führt Unit-Tests mit pytest aus
+      run: |
+        python -m unittest test_main.py # Startet die Tests über das unittest-Modul
