@@ -1,0 +1,49 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.pyd
+*.pyo
+
+# Distributions and packaging
+.Python
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Environments
+.env
+.venv
+venc/
+virtualenv/
+venv/
+ENV/
+env.bak/
+env.dev/
+
+# Editors
+.vscode/
+.idea/
+
+# Tests
+.pytest_cache/
+.coverage
+htmlcov/
+
+# OS generated files
+.DS_Store
+.Trashes
+thumbs.db
+
+# Logs
+*.log
+
+# MyPy
+.mypy_cache/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Custom mock definitions (if external config is added later)
+mocks.json
+config.yaml
